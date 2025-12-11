@@ -11,7 +11,10 @@ public final class LedStripState {
         this.colors = Arrays.copyOf(colors, colors.length);
     }
 
-    public int length() { return colors.length; }
+    public int length() {
+        return colors.length;
+    }
+
     public RgbColor colorAt(int index) {
         if (index < 0 || index >= colors.length) throw new IndexOutOfBoundsException();
         return colors[index];

@@ -16,16 +16,27 @@ public final class SimpleLed  implements Led {
     }
 
     @Override
-    public int index() { return index; }
+    public int index() {
+        return index;
+    }
 
     @Override
-    public void turnOn() { this.on = true; if (this.color == null) this.color = RgbColor.OFF; }
+    public void turnOn() {
+        this.on = true;
+        if (this.color == null) {
+            this.color = RgbColor.OFF;
+        }
+    }
 
     @Override
-    public void turnOff() { this.on = false; }
+    public void turnOff() {
+        this.on = false;
+    }
 
     @Override
-    public boolean isOn() { return on; }
+    public boolean isOn() {
+        return on;
+    }
 
     @Override
     public void setColor(RgbColor color) {

@@ -3,12 +3,44 @@
  */
 package org.senegas.ledstrip.app;
 
+import org.senegas.ledstrip.domain.color.RgbColor;
+import org.senegas.ledstrip.domain.led.LedStrip;
+import org.senegas.ledstrip.domain.led.LedStripController;
+import org.senegas.ledstrip.hardware.RecordingAdapter;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class LedStripApp {
-    public String getGreeting() {
-        return "Hello World!";
+
+    public static final String TITLE = "LedStrip App";
+    public static final String VERSION = "0.1.0";
+    private static final Logger LOGGER = Logger.getLogger(LedStripApp.class.getName());
+
+    public static String getGreeting() {
+        return "__             _______ __       _       __\n"
+            + "     / /   ___  ____/ / ___// /______(_)___  / /\n"
+            + "    / /   / _ \\/ __  /\\__ \\/ __/ ___/ / __ \\/ / \n"
+            + "   / /___/  __/ /_/ /___/ / /_/ /  / / /_/ /_/  \n"
+            + "  /_____/\\___/\\__,_//____/\\__/_/  /_/ .___(_)   \n"
+            + "                                   /_/          ";
     }
 
     public static void main(String[] args) {
-        System.out.println(new LedStripApp().getGreeting());
+        LOGGER.log(Level.INFO, getGreeting());
+        LOGGER.log(Level.INFO, TITLE + " has started.");
+
+        LedStrip strip = LedStrip.ofLength(16);
+        RecordingAdapter adapter = new RecordingAdapter();
+        LedStripController controller = new LedStripController(strip, adapter);
+
+        controller.fill(new RgbColor(10, 20, 30));
+        controller.setPixel(5, new RgbColor(255, 0, 0));
+
+        System.out.println("Strip: " + strip.toString());
+
+        controller.clear();
+
+        System.out.println("Last applied: " + adapter.last().orElse(null));
     }
 }

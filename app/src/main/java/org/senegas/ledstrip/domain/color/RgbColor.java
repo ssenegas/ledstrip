@@ -24,9 +24,17 @@ import java.util.Objects;
         }
     }
 
-    public int r() { return red; }
-    public int g() { return green; }
-    public int b() { return blue; }
+    public int red() {
+        return red;
+    }
+
+    public int green() {
+        return green;
+    }
+
+    public int blue() {
+        return blue;
+    }
 
     public boolean isOff() {
         return red == 0 && green == 0 && blue == 0;
