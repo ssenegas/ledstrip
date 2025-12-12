@@ -17,7 +17,7 @@ public class MovingDotEffect implements Effect {
 
     @Override
     public boolean apply(LedStrip strip, long timestampMillis) {
-        int n = strip.length();
+        int n = strip.getLength();
         if (n == 0) return false;
 
         long t = timestampMillis % periodMillis;

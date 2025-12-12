@@ -16,7 +16,7 @@ public final class SimpleLed  implements Led {
     }
 
     @Override
-    public int index() {
+    public int getIndex() {
         return index;
     }
 

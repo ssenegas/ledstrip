@@ -30,20 +30,20 @@ public class LedStripController {
     }
 
     public void turnOffAll() {
-        for (int i = 0; i < strip.length(); i++) {
+        for (int i = 0; i < strip.getLength(); i++) {
             strip.getLed(i).turnOff();
         }
         adapter.apply(strip.snapshot());
     }
 
     public void turnOnAll() {
-        for (int i = 0; i < strip.length(); i++) {
+        for (int i = 0; i < strip.getLength(); i++) {
             strip.getLed(i).turnOn();
         }
         adapter.apply(strip.snapshot());
     }
 
-    public LedStripState snapshot() {
+    public LedStripState getSnapshot() {
         return strip.snapshot();
     }
 }

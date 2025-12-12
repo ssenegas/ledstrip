@@ -24,15 +24,15 @@ import java.util.Objects;
         }
     }
 
-    public int red() {
+    public int getRed() {
         return red;
     }
 
-    public int green() {
+    public int getGreen() {
         return green;
     }
 
-    public int blue() {
+    public int getBlue() {
         return blue;
     }
 

@@ -23,7 +23,7 @@ public class LedStrip {
         return new LedStrip(length);
     }
 
-    public int length() {
+    public int getLength() {
         return leds.size();
     }
 
@@ -32,7 +32,7 @@ public class LedStrip {
         return leds.get(index);
     }
 
-    public List<Led> leds() {
+    public List<Led> getLeds() {
         return Collections.unmodifiableList(leds);
     }
 
@@ -80,14 +80,14 @@ public class LedStrip {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         LedStripState state = snapshot();
-        sb.append("LED Strip (").append(state.length()).append(" LEDs)\n");
+        sb.append("LED Strip (").append(state.getLength()).append(" LEDs)\n");
         sb.append("--------------------------------------------\n");
 
-        for (int i = 0; i < state.length(); i++) {
-            RgbColor c = state.colorAt(i);
+        for (int i = 0; i < state.getLength(); i++) {
+            RgbColor c = state.getColorAt(i);
             sb.append(String.format(
                     "[%02d] R:%3d G:%3d B:%3d",
-                    i, c.red(), c.green(), c.blue()
+                    i, c.getRed(), c.getGreen(), c.getBlue()
             ));
             sb.append("\n");
         }
