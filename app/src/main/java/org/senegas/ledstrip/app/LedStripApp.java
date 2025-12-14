@@ -3,44 +3,47 @@
  */
 package org.senegas.ledstrip.app;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.senegas.ledstrip.domain.color.RgbColor;
 import org.senegas.ledstrip.domain.led.LedStrip;
 import org.senegas.ledstrip.domain.led.LedStripController;
-import org.senegas.ledstrip.hardware.RecordingAdapter;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.senegas.ledstrip.hardware.ConsoleLedStripHardwareAdapter;
+import org.senegas.ledstrip.hardware.LedStripHardwareAdapter;
 
 public class LedStripApp {
 
-    public static final String TITLE = "LedStrip App";
-    public static final String VERSION = "0.1.0";
-    private static final Logger LOGGER = Logger.getLogger(LedStripApp.class.getName());
-
     public static String getGreeting() {
         return "__             _______ __       _       __\n"
-            + "     / /   ___  ____/ / ___// /______(_)___  / /\n"
-            + "    / /   / _ \\/ __  /\\__ \\/ __/ ___/ / __ \\/ / \n"
-            + "   / /___/  __/ /_/ /___/ / /_/ /  / / /_/ /_/  \n"
-            + "  /_____/\\___/\\__,_//____/\\__/_/  /_/ .___(_)   \n"
-            + "                                   /_/          ";
+                + "     / /   ___  ____/ / ___// /______(_)___  / /\n"
+                + "    / /   / _ \\/ __  /\\__ \\/ __/ ___/ / __ \\/ / \n"
+                + "   / /___/  __/ /_/ /___/ / /_/ /  / / /_/ /_/  \n"
+                + "  /_____/\\___/\\__,_//____/\\__/_/  /_/ .___(_)   \n"
+                + "                                   /_/          ";
     }
+    public static final String TITLE = "LedStrip App";
+    public static final String VERSION = "0.1.0";
+
+    private static final Logger LOGGER = Logger.getLogger(LedStripApp.class.getName());
 
     public static void main(String[] args) {
         LOGGER.log(Level.INFO, getGreeting());
         LOGGER.log(Level.INFO, TITLE + " has started.");
 
         LedStrip strip = LedStrip.ofLength(16);
-        RecordingAdapter adapter = new RecordingAdapter();
+        LedStripHardwareAdapter adapter = new ConsoleLedStripHardwareAdapter();
+        //RecordingAdapter adapter = new RecordingAdapter();
+
         LedStripController controller = new LedStripController(strip, adapter);
 
-        controller.fill(new RgbColor(10, 20, 30));
-        controller.setPixel(5, new RgbColor(255, 0, 0));
+        controller.fill(RgbColor.WHITE);
 
-        System.out.println("Strip: " + strip.toString());
+        controller.setPixel(0, RgbColor.BLUE);
+        controller.setPixel(5, RgbColor.GREEN);
+        controller.setPixel(5, RgbColor.YELLOW);
+        controller.togglePixel(5);
 
         controller.clear();
-
-        System.out.println("Last applied: " + adapter.last().orElse(null));
+        //System.out.println("Last applied: " + adapter.last().orElse(null));
     }
 }

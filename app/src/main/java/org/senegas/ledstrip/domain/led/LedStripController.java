@@ -19,6 +19,11 @@ public class LedStripController {
         adapter.apply(strip.snapshot());
     }
 
+    public void togglePixel(int index) {
+        strip.getLed(index).toggle();
+        adapter.apply(strip.snapshot());
+    }
+
     public void fill(RgbColor color) {
         strip.fill(color);
         adapter.apply(strip.snapshot());
