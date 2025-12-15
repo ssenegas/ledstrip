@@ -5,6 +5,7 @@ import java.util.Objects;
  public final class RgbColor {
     public static final RgbColor OFF = new RgbColor(0, 0, 0);
     public static final RgbColor WHITE = new RgbColor(255, 255, 255);
+     public static final RgbColor GRAY = new RgbColor(128, 128, 128);
     public static final RgbColor RED = new RgbColor(255, 0, 0);
     public static final RgbColor GREEN = new RgbColor(0, 255, 0);
     public static final RgbColor BLUE = new RgbColor(0, 0, 255);

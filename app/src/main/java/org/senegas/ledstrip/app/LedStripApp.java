@@ -36,7 +36,7 @@ public class LedStripApp {
 
         LedStripController controller = new LedStripController(strip, adapter);
 
-        controller.fill(RgbColor.WHITE);
+        controller.fill(RgbColor.GRAY);
 
         controller.setPixel(0, RgbColor.BLUE);
         controller.setPixel(5, RgbColor.GREEN);
