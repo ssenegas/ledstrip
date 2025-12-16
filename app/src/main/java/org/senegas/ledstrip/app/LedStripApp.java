@@ -3,6 +3,7 @@
  */
 package org.senegas.ledstrip.app;
 
+import java.awt.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.senegas.ledstrip.domain.color.RgbColor;
@@ -10,6 +11,10 @@ import org.senegas.ledstrip.domain.led.LedStrip;
 import org.senegas.ledstrip.domain.led.LedStripController;
 import org.senegas.ledstrip.hardware.ConsoleLedStripHardwareAdapter;
 import org.senegas.ledstrip.hardware.LedStripHardwareAdapter;
+import org.senegas.ledstrip.hardware.SwingLedStripHardwareAdapter;
+import org.senegas.ledstrip.view.LedStripFrame;
+
+import javax.swing.*;
 
 public class LedStripApp {
 
@@ -30,20 +35,34 @@ public class LedStripApp {
         LOGGER.log(Level.INFO, getGreeting());
         LOGGER.log(Level.INFO, TITLE + " has started.");
 
+        EventQueue.invokeLater(() -> new LedStripApp().create());
+    }
+
+    private void create() {
         LedStrip strip = LedStrip.ofLength(16);
-        LedStripHardwareAdapter adapter = new ConsoleLedStripHardwareAdapter();
-        //RecordingAdapter adapter = new RecordingAdapter();
 
-        LedStripController controller = new LedStripController(strip, adapter);
-
-        controller.fill(RgbColor.GRAY);
-
-        controller.setPixel(0, RgbColor.BLUE);
-        controller.setPixel(5, RgbColor.GREEN);
-        controller.setPixel(5, RgbColor.YELLOW);
-        controller.togglePixel(5);
-
-        controller.clear();
+//        SwingLedStripHardwareAdapter visualizer =
+//                new SwingLedStripHardwareAdapter(strip.getLength());
+//        LedStripHardwareAdapter adapter = new ConsoleLedStripHardwareAdapter();
+//        //RecordingAdapter adapter = new RecordingAdapter();
+//
+//        LedStripController controller = new LedStripController(strip, visualizer);
+//
+//        controller.fill(RgbColor.GRAY);
+//
+//        controller.setPixel(0, RgbColor.BLUE);
+//        controller.setPixel(5, RgbColor.GREEN);
+//        controller.setPixel(5, RgbColor.YELLOW);
+//        controller.togglePixel(5);
+//
+//        controller.clear();
         //System.out.println("Last applied: " + adapter.last().orElse(null));
+
+        final JFrame f = new LedStripFrame(strip);
+        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        //f.setPreferredSize(new Dimension(350, 180));
+        f.pack();
+        f.setLocationRelativeTo(null);
+        f.setVisible(true);
     }
 }
