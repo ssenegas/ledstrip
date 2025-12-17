@@ -57,6 +57,20 @@ import java.util.Objects;
         );
     }
 
+     public RgbColor blend(RgbColor other, double ratio) {
+         if (ratio < 0.0 || ratio > 1.0) {
+             throw new IllegalArgumentException("ratio must be 0..1");
+         }
+         if (other == null) {
+             throw new IllegalArgumentException("other color cannot be null");
+         }
+         return new RgbColor(
+                 (int) Math.round(red * (1 - ratio) + other.red * ratio),
+                 (int) Math.round(green * (1 - ratio) + other.green * ratio),
+                 (int) Math.round(blue * (1 - ratio) + other.blue * ratio)
+         );
+     }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof RgbColor)) return false;

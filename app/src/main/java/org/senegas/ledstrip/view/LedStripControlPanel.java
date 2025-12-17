@@ -54,6 +54,11 @@ public class LedStripControlPanel extends JPanel {
             int index = (Integer) spinnerIndex.getValue();
             showColorChooserForLed(index);
         }));
+
+        add(createLabel("Patterns:"));
+        add(createButton("Rainbow", e -> applyRainbowPattern()));
+        add(createButton("Gradient", e -> applyGradientPattern()));
+        add(createButton("Alternate", e -> applyAlternatePattern()));
     }
 
     private void showColorChooserForLed(int index) {
@@ -117,5 +122,39 @@ public class LedStripControlPanel extends JPanel {
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
         separator.setPreferredSize(new Dimension(2, 30));
         return separator;
+    }
+
+    private void applyRainbowPattern() {
+        int ledCount = controller.getSnapshot().getLength();
+
+        for (int i = 0; i < ledCount; i++) {
+            float hue = (float) i / ledCount;
+            java.awt.Color awtColor = java.awt.Color.getHSBColor(hue, 1.0f, 1.0f);
+            RgbColor color = new RgbColor(
+                    awtColor.getRed(),
+                    awtColor.getGreen(),
+                    awtColor.getBlue()
+            );
+            controller.setPixel(i, color);
+        }
+    }
+
+    private void applyGradientPattern() {
+        int ledCount = controller.getSnapshot().getLength();
+
+        for (int i = 0; i < ledCount; i++) {
+            double ratio = (double) i / (ledCount - 1);
+            RgbColor color = RgbColor.BLUE.blend(RgbColor.RED, ratio);
+            controller.setPixel(i, color);
+        }
+    }
+
+    private void applyAlternatePattern() {
+        int ledCount = controller.getSnapshot().getLength();
+
+        for (int i = 0; i < ledCount; i++) {
+            RgbColor color = (i % 2 == 0) ? RgbColor.RED : RgbColor.BLUE;
+            controller.setPixel(i, color);
+        }
     }
 }
