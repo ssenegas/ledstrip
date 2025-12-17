@@ -3,9 +3,12 @@
  */
 package org.senegas.ledstrip.app;
 
+
 import java.awt.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.formdev.flatlaf.FlatLightLaf;
 import org.senegas.ledstrip.domain.color.RgbColor;
 import org.senegas.ledstrip.domain.led.LedStrip;
 import org.senegas.ledstrip.domain.led.LedStripController;
@@ -39,6 +42,8 @@ public class LedStripApp {
     }
 
     private void create() {
+        FlatLightLaf.setup();
+
         LedStrip strip = LedStrip.ofLength(16);
 
 //        SwingLedStripHardwareAdapter visualizer =
