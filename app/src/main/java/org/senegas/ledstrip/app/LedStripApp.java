@@ -44,7 +44,7 @@ public class LedStripApp {
     private void create() {
         FlatLightLaf.setup();
 
-        LedStrip strip = LedStrip.ofLength(16);
+        LedStrip strip = LedStrip.ofLength(32);
 
 //        SwingLedStripHardwareAdapter visualizer =
 //                new SwingLedStripHardwareAdapter(strip.getLength());
