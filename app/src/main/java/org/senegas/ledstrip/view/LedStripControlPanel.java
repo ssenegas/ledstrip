@@ -55,6 +55,8 @@ public class LedStripControlPanel extends JPanel {
             showColorChooserForLed(index);
         }));
 
+        add(createSeparator());
+
         add(createLabel("Patterns:"));
         add(createButton("Rainbow", e -> applyRainbowPattern()));
         add(createButton("Gradient", e -> applyGradientPattern()));
