@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class SwingLedStripHardwareAdapter extends JPanel implements LedStripHardwareAdapter {
 
-    private static final int LED_RADIUS = 20;
+    private static final int LED_RADIUS = 30;
     private static final int LED_SPACING = 5;
 
     private LedStripState currentState = null;

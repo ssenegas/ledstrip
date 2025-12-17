@@ -31,6 +31,60 @@ public class LedStripControlPanel extends JPanel {
         add(createColorButton("Red", RgbColor.RED));
         add(createColorButton("Green", RgbColor.GREEN));
         add(createColorButton("Blue", RgbColor.BLUE));
+
+        add(createSeparator());
+
+        add(createLabel("LED Control:"));
+
+        JLabel lblIndex = new JLabel("Index:");
+        add(lblIndex);
+
+        int ledCount = controller.getSnapshot().getLength();
+        SpinnerNumberModel indexModel = new SpinnerNumberModel(0, 0, ledCount - 1, 1);
+        JSpinner spinnerIndex = new JSpinner(indexModel);
+        ((JSpinner.DefaultEditor) spinnerIndex.getEditor()).getTextField().setColumns(3);
+        add(spinnerIndex);
+
+        add(createButton("Toggle", e -> {
+            int index = (Integer) spinnerIndex.getValue();
+            controller.togglePixel(index);
+        }));
+
+        add(createButton("Set Color", e -> {
+            int index = (Integer) spinnerIndex.getValue();
+            showColorChooserForLed(index);
+        }));
+    }
+
+    private void showColorChooserForLed(int index) {
+        RgbColor currentColor = controller.getSnapshot().getColorAt(index);
+
+        java.awt.Color initialColor = new java.awt.Color(
+                currentColor.getRed(),
+                currentColor.getGreen(),
+                currentColor.getBlue()
+        );
+
+        java.awt.Color awtColor = JColorChooser.showDialog(
+                this,
+                "Choose Color for LED " + index,
+                initialColor
+        );
+
+        if (awtColor != null) {
+            RgbColor newColor = new RgbColor(
+                    awtColor.getRed(),
+                    awtColor.getGreen(),
+                    awtColor.getBlue()
+            );
+            controller.setPixel(index, newColor);
+        }
+    }
+
+    private JLabel createLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setFont(label.getFont().deriveFont(Font.BOLD));
+        return label;
     }
 
     private JButton createButton(String text, ActionListener listener) {
