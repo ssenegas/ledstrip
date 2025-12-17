@@ -3,6 +3,7 @@ package org.senegas.ledstrip.view;
 import org.senegas.ledstrip.domain.color.RgbColor;
 import org.senegas.ledstrip.domain.led.LedStrip;
 import org.senegas.ledstrip.domain.led.LedStripController;
+import org.senegas.ledstrip.hardware.CompositeLedStripHardwareAdapter;
 import org.senegas.ledstrip.hardware.ConsoleLedStripHardwareAdapter;
 import org.senegas.ledstrip.hardware.LedStripHardwareAdapter;
 import org.senegas.ledstrip.hardware.SwingLedStripHardwareAdapter;
@@ -23,7 +24,12 @@ public class LedStripFrame extends JFrame {
         SwingLedStripHardwareAdapter visualizer =
                 new SwingLedStripHardwareAdapter(strip.getLength());
 
-        LedStripController controller = new LedStripController(strip, visualizer);
+        LedStripHardwareAdapter console = new ConsoleLedStripHardwareAdapter();
+
+        CompositeLedStripHardwareAdapter composite =
+                new CompositeLedStripHardwareAdapter(visualizer, console);
+
+        LedStripController controller = new LedStripController(strip, composite);
 
         LedStripControlPanel controls = new LedStripControlPanel(controller);
 
