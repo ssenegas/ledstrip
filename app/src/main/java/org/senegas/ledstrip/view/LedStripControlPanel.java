@@ -1,6 +1,9 @@
 package org.senegas.ledstrip.view;
 
+import org.senegas.ledstrip.app.animation.AnimationEngine;
 import org.senegas.ledstrip.domain.color.RgbColor;
+import org.senegas.ledstrip.domain.effect.Effect;
+import org.senegas.ledstrip.domain.effect.MovingDotEffect;
 import org.senegas.ledstrip.domain.led.LedStripController;
 
 import javax.swing.*;
@@ -9,6 +12,10 @@ import java.awt.event.ActionListener;
 
 public class LedStripControlPanel extends JPanel {
     private final LedStripController controller;
+    private final AnimationEngine animationEngine;
+
+    private final JButton startStopButton = new JButton("Start");
+    private boolean running = false;
 
     public LedStripControlPanel(LedStripController controller) {
         if (controller == null) {
@@ -16,6 +23,11 @@ public class LedStripControlPanel extends JPanel {
         }
 
         this.controller = controller;
+
+        Effect effect = new MovingDotEffect(RgbColor.BLUE, 2000);
+
+        this.animationEngine =
+                new AnimationEngine(this.controller, effect, 40);
 
         setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -61,6 +73,31 @@ public class LedStripControlPanel extends JPanel {
         add(createButton("Rainbow", e -> applyRainbowPattern()));
         add(createButton("Gradient", e -> applyGradientPattern()));
         add(createButton("Alternate", e -> applyAlternatePattern()));
+
+        add(createSeparator());
+
+        startStopButton.addActionListener(e -> toggleAnimation());
+        add(startStopButton);
+    }
+
+    private void toggleAnimation() {
+        if (running) {
+            stopAnimation();
+        } else {
+            startAnimation();
+        }
+    }
+
+    private void startAnimation() {
+        animationEngine.start();
+        running = true;
+        startStopButton.setText("Stop");
+    }
+
+    private void stopAnimation() {
+        animationEngine.stop();
+        running = false;
+        startStopButton.setText("Start");
     }
 
     private void showColorChooserForLed(int index) {
@@ -158,5 +195,9 @@ public class LedStripControlPanel extends JPanel {
             RgbColor color = (i % 2 == 0) ? RgbColor.RED : RgbColor.BLUE;
             controller.setPixel(i, color);
         }
+    }
+
+    public void shutdown() {
+        animationEngine.close();
     }
 }

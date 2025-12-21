@@ -46,23 +46,6 @@ public class LedStripApp {
 
         LedStrip strip = LedStrip.ofLength(32);
 
-//        SwingLedStripHardwareAdapter visualizer =
-//                new SwingLedStripHardwareAdapter(strip.getLength());
-//        LedStripHardwareAdapter adapter = new ConsoleLedStripHardwareAdapter();
-//        //RecordingAdapter adapter = new RecordingAdapter();
-//
-//        LedStripController controller = new LedStripController(strip, visualizer);
-//
-//        controller.fill(RgbColor.GRAY);
-//
-//        controller.setPixel(0, RgbColor.BLUE);
-//        controller.setPixel(5, RgbColor.GREEN);
-//        controller.setPixel(5, RgbColor.YELLOW);
-//        controller.togglePixel(5);
-//
-//        controller.clear();
-        //System.out.println("Last applied: " + adapter.last().orElse(null));
-
         final JFrame f = new LedStripFrame(strip);
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         //f.setPreferredSize(new Dimension(350, 180));

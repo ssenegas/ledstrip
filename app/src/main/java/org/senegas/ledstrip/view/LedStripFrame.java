@@ -10,6 +10,8 @@ import org.senegas.ledstrip.hardware.SwingLedStripHardwareAdapter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
 
@@ -37,5 +39,14 @@ public class LedStripFrame extends JFrame {
 
         this.add(visualizer, BorderLayout.CENTER);
         this.add(controls, BorderLayout.SOUTH);
+
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                controls.shutdown();
+            }
+        });
     }
 }

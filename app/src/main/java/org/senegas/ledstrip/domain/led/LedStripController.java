@@ -1,6 +1,7 @@
 package org.senegas.ledstrip.domain.led;
 
 import org.senegas.ledstrip.domain.color.RgbColor;
+import org.senegas.ledstrip.domain.effect.Effect;
 import org.senegas.ledstrip.hardware.LedStripHardwareAdapter;
 
 import java.util.Objects;
@@ -56,6 +57,14 @@ public class LedStripController {
             strip.getLed(i).turnOn();
         }
         adapter.apply(strip.snapshot());
+    }
+
+    public boolean applyEffect(Effect effect, long timestampMillis) {
+        boolean changed = effect.apply(strip, timestampMillis);
+        if (changed) {
+            adapter.apply(strip.snapshot());
+        }
+        return changed;
     }
 
     public LedStripState getSnapshot() {
