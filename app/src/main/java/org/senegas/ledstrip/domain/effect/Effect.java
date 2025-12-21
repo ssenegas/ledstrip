@@ -12,4 +12,8 @@ public interface Effect {
      * @return true if state changed
      */
     boolean apply(LedStrip strip, long timestampMillis);
+
+    default void reset() {
+        // no-op for stateless effects
+    }
 }

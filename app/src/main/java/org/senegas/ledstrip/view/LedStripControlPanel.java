@@ -2,18 +2,20 @@ package org.senegas.ledstrip.view;
 
 import org.senegas.ledstrip.app.animation.AnimationEngine;
 import org.senegas.ledstrip.domain.color.RgbColor;
-import org.senegas.ledstrip.domain.effect.Effect;
-import org.senegas.ledstrip.domain.effect.MovingDotEffect;
+import org.senegas.ledstrip.domain.effect.*;
 import org.senegas.ledstrip.domain.led.LedStripController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class LedStripControlPanel extends JPanel {
     private final LedStripController controller;
     private final AnimationEngine animationEngine;
+    private final EffectRegistry effectRegistry;
 
+    private JComboBox<AbstractEffect> effectComboBox;
     private final JButton startStopButton = new JButton("Start");
     private boolean running = false;
 
@@ -24,10 +26,10 @@ public class LedStripControlPanel extends JPanel {
 
         this.controller = controller;
 
-        Effect effect = new MovingDotEffect(RgbColor.BLUE, 2000);
+        this.effectRegistry = new DefaultEffectRegistry();
 
         this.animationEngine =
-                new AnimationEngine(this.controller, effect, 40);
+                new AnimationEngine(this.controller, 40);
 
         setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -78,6 +80,15 @@ public class LedStripControlPanel extends JPanel {
 
         startStopButton.addActionListener(e -> toggleAnimation());
         add(startStopButton);
+
+        this.effectComboBox = new JComboBox<>(
+                effectRegistry.availableEffects().toArray(AbstractEffect[]::new)
+        );
+        add(this.effectComboBox);
+    }
+
+    private AbstractEffect selectedEffect() {
+        return (AbstractEffect) effectComboBox.getSelectedItem();
     }
 
     private void toggleAnimation() {
@@ -89,6 +100,7 @@ public class LedStripControlPanel extends JPanel {
     }
 
     private void startAnimation() {
+        animationEngine.setCurrentEffect(selectedEffect());
         animationEngine.start();
         running = true;
         startStopButton.setText("Stop");

@@ -5,11 +5,12 @@ import org.senegas.ledstrip.domain.led.LedStrip;
 
 import java.util.Objects;
 
-public class MovingDotEffect implements Effect {
+public class MovingDotEffect extends AbstractEffect {
     private final RgbColor color;
     private final long periodMillis; // time to complete one cycle
 
     public MovingDotEffect(RgbColor color, long periodMillis) {
+        super("Moving Dot");
         this.color = Objects.requireNonNull(color);
         if (periodMillis <= 0) throw new IllegalArgumentException("period > 0");
         this.periodMillis = periodMillis;

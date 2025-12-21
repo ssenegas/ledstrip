@@ -1,9 +1,8 @@
 package org.senegas.ledstrip.app.animation;
 
+import org.senegas.ledstrip.domain.effect.AbstractEffect;
 import org.senegas.ledstrip.domain.effect.Effect;
-import org.senegas.ledstrip.domain.led.LedStrip;
 import org.senegas.ledstrip.domain.led.LedStripController;
-import org.senegas.ledstrip.hardware.LedStripHardwareAdapter;
 
 import java.util.Objects;
 import java.util.concurrent.*;
@@ -12,18 +11,16 @@ public final class AnimationEngine implements AutoCloseable {
 
     private final ScheduledExecutorService scheduler;
     private final LedStripController controller;
-    private final Effect effect;
+    private volatile Effect currentEffect;
     private final long framePeriodMillis;
 
     private ScheduledFuture<?> task;
 
     public AnimationEngine(
             LedStripController controller,
-            Effect effect,
             long framePeriodMillis
     ) {
         this.controller = Objects.requireNonNull(controller);
-        this.effect = Objects.requireNonNull(effect);
         this.framePeriodMillis = framePeriodMillis;
 
         this.scheduler = Executors.newSingleThreadScheduledExecutor(r -> {
@@ -34,15 +31,17 @@ public final class AnimationEngine implements AutoCloseable {
     }
 
     public synchronized void start() {
-        if (task != null && !task.isCancelled()) {
-            return;
+        if (currentEffect == null) {
+            throw new IllegalStateException("No effect selected");
         }
+
+        currentEffect.reset();
 
         long startTime = System.currentTimeMillis();
 
         task = scheduler.scheduleAtFixedRate(() -> {
             long now = System.currentTimeMillis() - startTime;
-            controller.applyEffect(effect, now);
+            controller.applyEffect(currentEffect, now);
         }, 0, framePeriodMillis, TimeUnit.MILLISECONDS);
     }
 
@@ -57,5 +56,13 @@ public final class AnimationEngine implements AutoCloseable {
     public void close() {
         stop();
         scheduler.shutdownNow();
+    }
+
+    public void setCurrentEffect(AbstractEffect abstractEffect) {
+        if (task != null && !task.isCancelled()) {
+            throw new IllegalStateException("Cannot change effect while running");
+        }
+
+        this.currentEffect = Objects.requireNonNull(abstractEffect);
     }
 }
