@@ -18,16 +18,18 @@ public class MovingDotEffect extends AbstractEffect {
 
     @Override
     public boolean apply(LedStrip strip, long timestampMillis) {
-        int n = strip.getLength();
-        if (n == 0) return false;
+        int numberOfLed = strip.getLength();
+        if (numberOfLed == 0) {
+            return false;
+        }
 
         long t = timestampMillis % periodMillis;
         double fraction = (double)t / periodMillis;
-        int pos = (int)Math.floor(fraction * n);
+        int pos = (int)Math.floor(fraction * numberOfLed);
 
         // only update if different from previous colors (simplified)
         boolean changed = false;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < numberOfLed; i++) {
             if (i == pos) {
                 if (!strip.getLed(i).getColor().equals(color) || !strip.getLed(i).isOn()) {
                     strip.getLed(i).setColor(color);

@@ -5,7 +5,7 @@ import org.senegas.ledstrip.domain.led.LedStrip;
 
 public final class DualBouncingDotsEffect extends AbstractEffect {
 
-    private static final long STEP_DURATION_MS = 100;
+    private static final long STEP_DURATION_MS = 30;
 
     private int leftPos;
     private int rightPos;
@@ -19,8 +19,8 @@ public final class DualBouncingDotsEffect extends AbstractEffect {
 
     @Override
     public boolean apply(LedStrip strip, long timeMillis) {
-        int size = strip.getLength();
-        if (size == 0) {
+        int numberOfLed = strip.getLength();
+        if (numberOfLed == 0) {
             return false;
         }
 
@@ -29,20 +29,20 @@ public final class DualBouncingDotsEffect extends AbstractEffect {
         }
 
         if (rightPos == Integer.MAX_VALUE) {
-            rightPos = strip.getLength() - 1;
+            rightPos = numberOfLed - 1;
         }
 
         lastStepTime = timeMillis;
 
         strip.clear();
-        strip.setPixel(leftPos, RgbColor.GREEN);
-        strip.setPixel(rightPos, RgbColor.GREEN);
+        strip.setPixel(leftPos, RgbColor.ORANGE);
+        strip.setPixel(rightPos, RgbColor.CYAN);
 
         leftPos += direction;
         rightPos -= direction;
 
         boolean crossedOrMet = leftPos >= rightPos;
-        boolean atEdges = leftPos <= 0 || rightPos >= size - 1;
+        boolean atEdges = leftPos <= 0 || rightPos >= numberOfLed - 1;
 
         if (crossedOrMet || atEdges) {
             direction = -direction;

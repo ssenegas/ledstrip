@@ -1,7 +1,5 @@
 package org.senegas.ledstrip.domain.effect;
 
-import org.senegas.ledstrip.domain.led.Led;
-import org.senegas.ledstrip.domain.led.LedStrip;
 import org.senegas.ledstrip.domain.color.RgbColor;
 import org.senegas.ledstrip.domain.led.LedStrip;
 
